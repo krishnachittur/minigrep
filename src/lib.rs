@@ -25,7 +25,7 @@ impl Config {
     }
 }
 
-pub fn search<'a>(query: &str, contents: &str) -> Vec<String> {
+pub fn search(query: &str, contents: &str) -> Vec<String> {
     contents.lines()
         .enumerate()
         .filter(|(_, line)| line.contains(query))
