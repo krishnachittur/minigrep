@@ -1,6 +1,9 @@
 use std::fs;
 use std::error::Error;
 
+#[cfg(test)]
+mod tests;
+
 pub struct Config {
     query: String,
     filename: String
@@ -16,10 +19,19 @@ impl Config {
     }
 }
 
+pub fn search<'a>(query: &str, contents: &str) -> Vec<String> {
+    contents.lines()
+        .enumerate()
+        .filter(|(_, line)| line.contains(query))
+        .map(|(num, line)| format!("{}: {}", num, line))
+        .collect()
+}
+
 pub fn run(config: Config) -> Result<(), Box<dyn Error>> {
-    println!("Searching for {} in file {}", config.query, config.filename);
     let contents = fs::read_to_string(&config.filename)?;
-    println!("{}", contents);
+    for line in search(&config.query, &contents) {
+        println!("{}", line);
+    }
     Ok(())
 }
 

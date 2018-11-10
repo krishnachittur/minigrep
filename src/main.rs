@@ -9,7 +9,7 @@ use minigrep::Config;
 fn main() {
     let args: Vec<String> = env::args().collect();
     fn errprint<T: Display, V> (err: T) -> V {
-        println!("{}", err);
+        eprintln!("{}", err);
         process::exit(1)
     };
     let config = Config::new(&args).unwrap_or_else(errprint);
