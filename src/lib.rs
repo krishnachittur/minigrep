@@ -1,4 +1,5 @@
 use std::fs;
+use std::env;
 use std::error::Error;
 
 #[cfg(test)]
@@ -10,12 +11,17 @@ pub struct Config {
 }
 
 impl Config {
-    pub fn new(args: &[String]) -> Result<Config, &'static str> {
-        if args.len() != 3 {
-            Err("Usage: <program> <query> <filename>")
-        } else {
-            Ok(Config{query: args[1].clone(), filename: args[2].clone()})
-        }
+    pub fn new(mut args: env::Args) -> Result<Config, &'static str> {
+        args.next();
+        let query = match args.next() {
+            Some(arg) => arg,
+            None => return Err("Missing query argument")
+        };
+        let filename = match args.next() {
+            Some(arg) => arg,
+            None => return Err("Missing filename argument")
+        };
+        Ok(Config{query, filename})
     }
 }
 

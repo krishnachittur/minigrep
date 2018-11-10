@@ -2,11 +2,14 @@
 use super::*;
 
 #[test]
-fn one_result() {
-    let query = "duct";
+fn simple_test() {
+    let query = "dog";
     let contents = "\
-Rust:
-safe, fast, productive.
-Pick three.";
-    assert_eq!(search(query, contents), vec!["1: safe, fast, productive."]);
+The quick brown fox
+jumped over the lazy dog
+and the dog wasn't pleased.";
+    assert_eq!(search(query, contents),
+    vec!["1: jumped over the lazy dog",
+        "2: and the dog wasn't pleased."]
+    );
 }
